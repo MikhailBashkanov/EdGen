@@ -230,32 +230,14 @@ TVector3 EdPhysics::Decay_vertex(TLorentzVector *Vp_4, int i, TVector3 vert) {
 
 
 
+double EdPhysics::t_reaction(TLorentzVector *Vrecoil_tg_4 ) {
+  TLorentzVector tg_v4;
+  tg_v4.SetPxPyPzE(Vrecoil_tg_4->Px(),Vrecoil_tg_4->Py(),Vrecoil_tg_4->Pz(),Vrecoil_tg_4->E());
+  TLorentzVector t_v4;
+  t_v4 = target - tg_v4; // Operation allowed just between TLorentzVector and not TLorentzVector*
+  return t_v4.M2();
 
-// double EdPhysics::t_mc() {
-
-//   // 11 = electron , -211 = pi- , 211 = pi+
-
-
-
-//   TVector3 V3_1 , V3_2 ,V3_3;
-//   V3_1.SetXYZ(px_mc(11),py_mc(11),pz_mc(11));
-//   V3_2.SetXYZ(0,0,Ebeam);
-//   V3_3 = V3_2 - V3_1;   // Virtual photon momentum vector
-  
-
-//   TLorentzVector V4_1(V3_3,(Ebeam - V3_1.Mag())); // Virtual photon quadrimomentum
-//   V3_1.SetXYZ(px_mc(-211),py_mc(-211),pz_mc(-211));
-//   V3_2.SetXYZ(px_mc(211),py_mc(211),pz_mc(211));
-
-//   TLorentzVector V4_2(V3_1,sqrt(V3_1.Mag2() + pow(0.13957,2))); // pi- quadrimomentum
-//   TLorentzVector V4_3(V3_2,sqrt(V3_2.Mag2() + pow(0.13957,2))); // pi+ quadrimomentum
-  
-  
-//   t_rho = - (V4_1 - V4_2 - V4_3) * (V4_1 - V4_2 - V4_3);
-
-//   return t_rho;
-
-// }
+}
 
 
 // Double_t TPart_ident_ct::theta_pip_mc() {
@@ -314,34 +296,31 @@ TVector3 EdPhysics::Decay_vertex(TLorentzVector *Vp_4, int i, TVector3 vert) {
 // }
 
 // //-----------------------------------------
-
-// double EdPhysics::phi_lep_had_mc() {
+double EdPhysics::phi_lep_had(TLorentzVector *Vrecoil_tg_4, TLorentzVector *Velectron_4, TLorentzVector *Vmeson_4, double e_lab) {
 
 //   // 11 = electron , -211 = pi- , 211 = pi+
 
-//   p_phi_lep_had = 0;
+  double phi_lep_had_v = 0;
 
-//   TVector3 V3_1 , V3_2 ,V3_3 , V3_4, V3_5, V3_6;
-//   V3_1.SetXYZ(px_mc(11),py_mc(11),pz_mc(11)); // e' momentum
-//   V3_2.SetXYZ(0,0,Ebeam); // e momentum
-//   V3_3 = V3_2 - V3_1;   // Virtual photon momentum vector
-//   V3_4.SetXYZ(px_mc(211),py_mc(211),pz_mc(211)); // pi+ momentum
-//   V3_5.SetXYZ(px_mc(-211),py_mc(-211),pz_mc(-211)); // pi- momentum
-//   V3_6 = V3_4 + V3_5; // rho0 momentum
+  TVector3 V3_1 , V3_2 ,V3_3 , V3 V3_6;
+  V3_1 = Velectron_4->Vect(); // e' momentum
+  V3_2.SetXYZ(0,0,e_lab); // e momentum
+  V3_3 = V3_2 - V3_1;   // Virtual photon momentum vector
+  V3_6 = Vmeson_4->Vect(); // rho0 momentum
 
 
-//   TVector3 n_lep, n_had;
+  TVector3 n_lep, n_had;
 
-//   n_lep = V3_2.Cross(V3_1);
+  n_lep = V3_2.Cross(V3_1);
 
-//   n_had = V3_3.Cross(V3_6);
+  n_had = V3_3.Cross(V3_6);
 
   
-//   p_phi_lep_had = n_lep.Angle(n_had);
+  phi_lep_had_v = n_lep.Angle(n_had);
 
-//   return p_phi_lep_had;
+  return phi_lep_had_v;
 
-// }
+}
 
 
 // double EdPhysics::phi_pip_mc() {

@@ -66,6 +66,8 @@ class EdPhysics: public TGenPhaseSpace{
 
 	TVector3 Decay_vertex(TLorentzVector *Vp_4, int i, TVector3 vert);
 	double GetBeamProfile( double sigma = 1.);
+	
+	double t_reaction(TLorentzVector *Vrecoil_tg_4 );
 
 	 
 };
