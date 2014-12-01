@@ -163,8 +163,8 @@ void EdPhysics::MakeEvent(EdOutput *out , EdModel *model){
     // Here I need to fix the energy, because I do not know the kinematics at now and I generate randomly the momentum.
     
   
-    Z_ion = 2;
-    N_ion = 2;
+    Z_ion = model->Get_tgZ(); 
+    N_ion = model->Get_tgN();
     W = W4vector.M();
     Q2= -Q4vector.M2(); 
     nu= Q4vector.Dot(target)/target.M(); 
@@ -302,7 +302,7 @@ double EdPhysics::phi_lep_had(TLorentzVector *Vrecoil_tg_4, TLorentzVector *Vele
 
   double phi_lep_had_v = 0;
 
-  TVector3 V3_1 , V3_2 ,V3_3 , V3 V3_6;
+  TVector3 V3_1 , V3_2 ,V3_3 ,V3_6;
   V3_1 = Velectron_4->Vect(); // e' momentum
   V3_2.SetXYZ(0,0,e_lab); // e momentum
   V3_3 = V3_2 - V3_1;   // Virtual photon momentum vector

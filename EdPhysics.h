@@ -68,6 +68,7 @@ class EdPhysics: public TGenPhaseSpace{
 	double GetBeamProfile( double sigma = 1.);
 	
 	double t_reaction(TLorentzVector *Vrecoil_tg_4 );
+	double phi_lep_had(TLorentzVector *Vrecoil_tg_4, TLorentzVector *Velectron_4, TLorentzVector *Vmeson_4, double e_lab);
 
 	 
 };
