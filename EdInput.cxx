@@ -222,6 +222,22 @@ EdInput::EdInput(const char *file){
 	  fData.npvert[atvertex] = valc2.Atoi();
 	  printf("Origin vertex particle n.: %d    Number of particles at this vertex: %d \n",fData.overt[atvertex],fData.npvert[atvertex]);
 	  
+	  
+	}
+	if (valcommand.Contains("vpart:")) {
+	  valcommand.ReplaceAll("vpart:","");
+	  valcommand.ReplaceAll(";","");
+	  valcommand.ReplaceAll(" ","");
+	  printf("Particle ID for vertex states particles: ");
+	  for (int i=0; i<fData.npvert[atvertex] -1; i++) {
+	    poscomma = valcommand.First(",");
+	    valc2 = valcommand(0,poscomma);
+	    fData.dvert[atvertex][i] = valc2.Atoi();
+	    valcommand.Replace(0,poscomma+1,"");
+	    printf(" %d",fData.dvert[atvertex][i]);
+	  }
+	  fData.dvert[atvertex][fData.npvert[atvertex] -1] = valcommand.Atoi();
+	  printf(" %d \n",fData.dvert[atvertex][fData.npvert[atvertex] -1]);
 	}
 	if (valcommand.Contains("v_type:")) {
 	  valcommand.ReplaceAll("v_type:","");

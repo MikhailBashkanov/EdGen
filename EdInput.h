@@ -14,7 +14,7 @@ struct inputdata {
     int    nvertex; // total number of vertexes
     int    npvert[10]; // total number of particle at one vertex
     int    overt[10]; // particle at origin of one vertex (need to be already existing)
-    int    dvert[10][10]; // particle daughters at vertex 
+    int    dvert[10][10]; // particle daughters at vertex [vertex][pdg_id]
     int    v_type[10]; // vertex type (1= ratio  of probability , 2= cross section
     double v_ratio[10]; // ration to be applied to vertex
 
