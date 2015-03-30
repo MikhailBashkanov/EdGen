@@ -205,6 +205,7 @@ int EdPhysics::Gen_Mass(int i) {
   int good_gen = 1;
   int k;
   double total_gen = 0.;
+  if (Wtg.M() < 0 ) return 0;
   for (int j=0; j<npvert[i] ; j++) {
     k = (int)TMath::LocMin(npvert[i],prob);
     if (width[i][k] > 0.001) {
@@ -231,7 +232,7 @@ int EdPhysics::Gen_Mass(int i) {
 
 int EdPhysics::Gen_Phasespace(){
 
-      //    if (valid_event>0) printf("valid events =%i but nvertex=%i",valid_event,nvertex);
+  //if (valid_event>0) printf("valid events =%i but nvertex=%i",valid_event,nvertex);
   TLorentzVector *p4vector[n_part+1];
   double weight2;
   double total_mass;
@@ -246,26 +247,33 @@ int EdPhysics::Gen_Phasespace(){
     }
     else {
       Wtg = *p4vector[overt[i]-1];
+      printf("vertex part. %d  pid=%d mass=%.3e\n",overt[i]-1,part_pdg[overt[i]-1]->PdgCode(),part_pdg[overt[i]-1]->Mass());
     }
     good_mass=0;
     while (good_mass == 0) good_mass = Gen_Mass(i); 
+ 
     total_mass = 0.;
     for (int j=0; j<npvert[i]; j++) {
+      //      printf("I am here i=%i, vert=%i, j=%i, tot=%i\n",i,nvertex,j,npvert[i]);
       // val_mass[i][j] = -1.;
       // if (width[i][j]>0.001) {
       // 	while (val_mass[i][j]< 0.001) val_mass[i][j] = Gen_Mass(i,j); // If width > 1MeV, generate the event witha Breit-Wigner probability 
       // }
       // else val_mass[i][j] = masses[i][j];
       total_mass = total_mass + val_mass[i][j];
-      //     printf("mass vertex %i particle %i total=%.3e mass=%.3e max_mass%.3e \n",i,j,total_mass,val_mass[i][j],max_mass[i][j]);
+      printf("mass vertex %i particle %i Wmass=%.3e total=%.3e mass=%.3e \n",i,j,Wtg.M(),total_mass,val_mass[i][j]);
+ 
     }
     if (Wtg.M() < total_mass) good_mass = Gen_Mass(i);
-    //    printf("mass generated Wtg=%.3e total=%.3e good_mass=%i \n",Wtg.M(),total_mass,good_mass);      
+    //   printf("mass generated Wtg=%.3e total=%.3e good_mass=%i \n",Wtg.M(),total_mass,good_mass);      
     if (Wtg.M() > total_mass) { // mass check at each vertex
-      //   printf("mass generated\n");
-
+      //     printf("mass generated\n");
+      for (int j=0; j<npvert[i]; j++) {
+	printf("pass Total Mass: mass vertex %i particle %i Wmass=%.3e total=%.3e mass=%.3e \n",i,j,Wtg.M(),total_mass,val_mass[i][j]);
+      }
       SetDecay(Wtg, npvert[i], val_mass[i]);
       valid_event++;
+      //     printf("valid_event = %i \n",valid_event);
       weight2 = Generate();
       //   printf("event generated\n");
       for (int j=0; j<npvert[i]; j++) {
@@ -288,7 +296,7 @@ int EdPhysics::Gen_Phasespace(){
 	}
 	else {
 	  if (part_pdg[overt[i]-1]->Stable() == 1) {
-	    printf("Origin particle %i at vertex %i is stable??? vertexes of daughters particles as mother \n", particle_id[overt[i]-1],i); 
+	    //	    printf("Origin particle %i at vertex %i is stable??? vertexes of daughters particles as mother \n", particle_id[overt[i]-1],i); 
 	    vx[atpart] = vx[overt[i]-1];
 	    vy[atpart] = vy[overt[i]-1];
 	    vz[atpart] = vz[overt[i]-1];
@@ -306,7 +314,7 @@ int EdPhysics::Gen_Phasespace(){
     }
   }
   count_phase++;
-  if ( (count_phase%100000) == 0) printf("Generated %d events without passing your angle cuts. Could be you want to check your limits\n",count_phase);
+  if ( (count_phase%1000) == 0) printf("Generated %d events without passing your angle cuts. Could be you want to check your limits\n",count_phase);
   // theta_v_min = TMath::Pi();
   // theta_v_max = 0.;
 
@@ -318,7 +326,8 @@ int EdPhysics::Gen_Phasespace(){
       if (theta[i] > theta_max) valid_event--;
     }
   }
-  
+  printf("Final valid_event = %i, nvertex=%i \n",valid_event,nvertex);
+
   return valid_event;
 
 
