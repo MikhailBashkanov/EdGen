@@ -247,7 +247,7 @@ int EdPhysics::Gen_Phasespace(){
     }
     else {
       Wtg = *p4vector[overt[i]-1];
-      printf("vertex part. %d  pid=%d mass=%.3e\n",overt[i]-1,part_pdg[overt[i]-1]->PdgCode(),part_pdg[overt[i]-1]->Mass());
+      printf("vertex part. %d  pid=%d mass=%.3e, mass at vertex=%.3e\n",overt[i]-1,part_pdg[overt[i]-1]->PdgCode(),part_pdg[overt[i]-1]->Mass(),Wtg.M());
     }
     good_mass=0;
     while (good_mass == 0) good_mass = Gen_Mass(i); 
@@ -262,7 +262,7 @@ int EdPhysics::Gen_Phasespace(){
       // else val_mass[i][j] = masses[i][j];
       total_mass = total_mass + val_mass[i][j];
       printf("mass vertex %i particle %i Wmass=%.3e total=%.3e mass=%.3e \n",i,j,Wtg.M(),total_mass,val_mass[i][j]);
- 
+      // SEEMS THAT ATVERT REWRITES THE PARTICLES AFTER, So one of the 310 becomes a pion when execute the first vertex
     }
     if (Wtg.M() < total_mass) good_mass = Gen_Mass(i);
     //   printf("mass generated Wtg=%.3e total=%.3e good_mass=%i \n",Wtg.M(),total_mass,good_mass);      
