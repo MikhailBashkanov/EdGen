@@ -234,6 +234,7 @@ int EdPhysics::Gen_Phasespace(){
 
   //if (valid_event>0) printf("valid events =%i but nvertex=%i",valid_event,nvertex);
   TLorentzVector *p4vector[n_part+1];
+  TLorentzVector *p4vector_vert[n_part+1];
   double weight2;
   double total_mass;
   int atpart = 0;
@@ -278,7 +279,7 @@ int EdPhysics::Gen_Phasespace(){
       //   printf("event generated\n");
       for (int j=0; j<npvert[i]; j++) {
 	p4vector[atpart] = GetDecay(j);
-	//	cout << "Particle n." << atpart << " Mass=" << p4vector[atpart]->M() << endl; 
+	cout << "Particle n." << atpart << " Mass=" << p4vector[atpart]->M() << " npvert=" << npvert[i] << endl; 
 	theta[atpart] = p4vector[atpart]->Theta();
 	phi[atpart] = p4vector[atpart]->Phi();
 	Ef[atpart] = p4vector[atpart]->E();

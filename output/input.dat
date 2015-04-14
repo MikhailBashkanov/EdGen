@@ -1,7 +1,7 @@
 nevt:    100000;
 nprint:  1;
 model:   2;
-M_mode:  1;
+M_mode:  3;
 ifile:	 energy.txt; 
 beam:    22;
 en:	 5.5    GeV;
